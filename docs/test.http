@@ -1,0 +1,120 @@
+# Sign up a user
+POST {{baseUrl}}/api/v1/auth/signup
+Content-Type: application/json
+
+{
+  "email": "user2@example.com",
+  "name": "User 2",
+  "password": "password2"
+}
+
+###
+
+# Sign in a user
+POST {{baseUrl}}/api/v1/auth/signin
+Content-Type: application/json
+
+{
+  "email": "user2@example.com",
+  "password": "password2"
+}
+
+###
+
+# Refresh access token
+POST {{baseUrl}}/api/v1/auth/refresh-access-token
+Cookie: {{cookie2}}
+
+###
+
+# Log out a user
+POST {{baseUrl}}/api/v1/auth/logout
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Get current weather of a city
+GET {{baseUrl}}/api/v1/weather/London
+
+###
+
+# Get 5-day weather forecast of a city
+GET {{baseUrl}}/api/v1/forecast/parsissss
+
+###
+
+# Get favorite locations of a user
+GET {{baseUrl}}/api/v1/locations
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Favorite a location
+POST {{baseUrl}}/api/v1/locations
+Content-Type: application/json
+Authorization: Bearer {{accessToken2}}
+
+{
+  "city": "Bangalore"
+}
+
+###
+
+# Unfavorite a location
+DELETE {{baseUrl}}/api/v1/locations/11
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Update current weather of all favorite locations in cache
+POST {{baseUrl}}/api/v1/cron/update-current-weather
+Authorization: Bearer {{accessToken}}
+
+###
+
+# Update weather forecast of all favorite locations in cache
+POST {{baseUrl}}/api/v1/cron/update-weather-forecast
+Authorization: Bearer {{accessToken2}}
+
+###
+
+# GraphQL
+# Get current weather of a city - GraphQL
+
+POST {{baseUrl}}/graphql
+Content-Type: application/json
+
+{
+  "query": "query getCurrentWeather($city: String!) { getCurrentWeather(city: $city) { cod message weather { description } id name } }",
+  "variables": {
+    "city": "London"
+  }
+}
+
+###
+
+# Get favorite locations of a user - GraphQL
+
+POST {{baseUrl}}/graphql
+Content-Type: application/json
+Authorization: Bearer {{accessToken2}}
+
+{
+  "query": "query { getFavoriteLocations { id name } }"
+}
+
+###
+
+# Favorite a location - GraphQL
+POST {{baseUrl}}/graphql
+Content-Type: application/json
+Authorization: Bearer {{accessToken2}}
+
+{
+  "query": "mutation favoriteLocation($city: String!) { favoriteLocation(city: $city) }",
+  "variables": {
+    "city": "London"
+  }
+}
+
+###
