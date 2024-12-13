@@ -111,6 +111,11 @@ A powerful wrapper for OpenWeatherMap Weather API, enriched with additional feat
 - Added indexes to commonly queried fields in `User` and `Location` entities to optimize database performance.
 - Migrations are available under `src/migrations`, and the application includes scripts in `package.json` to create and run migrations easily.
 
+### Indexing Strategy
+
+- B-Tree Index is chosen for the `name` column as it is optimized for equality checks (e.g., WHERE name = 'Paris'). It is lightweight and ideal for single-city lookups.
+- If future requirements involve complex queries like searching by multiple cities or full-text search, transitioning to a GIN index with `to_tsvector` could efficiently address them.
+
 ---
 
 ## Security
